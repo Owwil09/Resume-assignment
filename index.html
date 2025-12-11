@@ -1,11 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Hockey Scratch Page</title>
+    <link rel="stylesheet" href="styles/hockeystyles.css">
 </head>
+
 <body>
-    <a href="resume.html">resume link</a>
+
+    <!-- Navigation -->
+    <div class="nav">
+        <a href="professional-home.html">Back to Main Website</a>
+        <a href="#highlights">Jump to Highlights</a>
+        <a href="#tableau">Jump to Tableau Graph</a>
+    </div>
+
+    <!-- Title Section -->
+    <div class="title-with-images">
+        <img src="https://www.vhv.rs/dpng/d/248-2484158_ice-hockey-clip-art-clipart-transparent-background-hockey.png" alt="Hockey Left">
+        <h1>Hockey: The Greatest Sport on Ice</h1>
+        <img src="https://www.vhv.rs/dpng/d/248-2484158_ice-hockey-clip-art-clipart-transparent-background-hockey.png" alt="Hockey Right">
+    </div>
+
+    <p class="intro">
+        Hockey is one of the fastest and most exciting sports in the world. The combination of speed, skill,
+        physicality, and nonstop action creates a level of intensity few sports can match.
+    </p>
+
+    <!-- Rules Section -->
+    <div class="content-box">
+        <h2>Basic Rules of Hockey</h2>
+        <p>Below is a quick breakdown of how the game works.</p>
+
+        <ol>
+            <li>Game Structure
+                <ul>
+                    <li>Three 20-minute periods</li>
+                    <li>Teams of six on the ice</li>
+                    <li>Score by getting the puck in the net</li>
+                </ul>
+            </li>
+
+            <li>Important Gameplay Rules
+                <ul>
+                    <li>Offside: You can't enter the offensive zone before the puck.</li>
+                    <li>Icing: You cannot shoot the puck across both red lines.</li>
+                    <li>Faceoffs restart play after a whistle.</li>
+                </ul>
+            </li>
+
+            <li>Penalties
+                <ul>
+                    <li>Minor Penalties (2 minutes)
+                        <ol>
+                            <li>Tripping</li>
+                            <li>Hooking</li>
+                            <li>Slashing</li>
+                            <li>High-sticking</li>
+                        </ol>
+                    </li>
+
+                    <li>Major Penalties (5 minutes)
+                        <ol>
+                            <li>Fighting</li>
+                            <li>Dangerous hits</li>
+                            <li>Charging</li>
+                        </ol>
+                    </li>
+                </ul>
+            </li>
+        </ol>
+    </div>
+
+    <!-- Video Section -->
+    <div class="content-box" id="highlights">
+        <h2>Legendary Hockey Highlights</h2>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/HSUdZ9sOQRU"
+            title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write;
+            encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+        </iframe>
+    </div>
+
+    <!-- Tableau Section -->
+   <!-- Tableau Section -->
+<div class="content-box" id="tableau">
+    <h2>Interactive Tableau Graph</h2>
+    <p>Explore this live, interactive Tableau visualization:</p>
+
+    <div class='tableauPlaceholder' id='viz1765485656851' style='position: relative'>
+        <noscript>
+            <a href='#'>
+                <img alt='1 (4)' 
+                src='https://public.tableau.com/static/images/NH/NHLdatafrom2000-2022/14/1_rss.png' 
+                style='border: none' />
+            </a>
+        </noscript>
+
+        <object class='tableauViz' style='display:none;'>
+            <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+            <param name='embed_code_version' value='3' />
+            <param name='site_root' value='' />
+            <param name='name' value='NHLdatafrom2000-2022/14' />
+            <param name='tabs' value='no' />
+            <param name='toolbar' value='yes' />
+            <param name='static_image' 
+                   value='https://public.tableau.com/static/images/NH/NHLdatafrom2000-2022/14/1.png' />
+            <param name='animate_transition' value='yes' />
+            <param name='display_static_image' value='yes' />
+            <param name='display_spinner' value='yes' />
+            <param name='display_overlay' value='yes' />
+            <param name='display_count' value='yes' />
+            <param name='language' value='en-US' />
+        </object>
+    </div>
+
+    <script type='text/javascript'>
+        var divElement = document.getElementById('viz1765485656851');
+        var vizElement = divElement.getElementsByTagName('object')[0];
+
+        if (divElement.offsetWidth > 800) {
+            vizElement.style.width = '1600px';
+            vizElement.style.height = '927px';
+        } else if (divElement.offsetWidth > 500) {
+            vizElement.style.width = '1600px';
+            vizElement.style.height = '927px';
+        } else {
+            vizElement.style.width = '100%';
+            vizElement.style.height = '4977px';
+        }
+
+        var scriptElement = document.createElement('script');
+        scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+        vizElement.parentNode.insertBefore(scriptElement, vizElement);
+    </script>
+</div>
+
+
+    <footer>
+        <p>© 2024 Hockey Scratch Page</p>
+    </footer>
+
 </body>
 </html>
