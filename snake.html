@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Customizable Snake Game</title>
+<style>
+    body {
+        margin: 0;
+        background: black;
+        display: flex;
+        color: white;
+        font-family: Arial, sans-serif;
+    }
+    #gameContainer {
+        display: flex;
+        gap: 20px;
+        padding: 20px;
+    }
+    #controls {
+        width: 250px;
+        background: #111;
+        padding: 15px;
+        border-radius: 10px;
+        height: fit-content;
+    }
+    label {
+        display: block;
+        margin-top: 10px;
+    }
+    input, select {
+        width: 100%;
+        padding: 5px;
+        margin-top: 5px;
+        border-radius: 5px;
+        border: none;
+    }
+    #gameCanvas {
+        background: #222;
+        display: block;
+        border: 2px solid white;
+    }
+</style>
+</head>
+<body>
+<div id="gameContainer">
+    <canvas id="gameCanvas"></canvas>
+
+    <div id="controls">
+        <h2>Settings</h2>
+
+        <label>Snake Speed (ms per move)</label>
+        <input type="number" id="speed" value="120" min="30" max="500">
+
+        <label>Apples on Screen</label>
+        <input type="number" id="appleCount" value="1" min="1" max="10">
+
+        <label>Snake Color</label>
+        <input type="color" id="snakeColor" value="#00ff00">
+
+        <label>Map Size (tiles)</label>
+        <select id="mapSize">
+            <option value="15">Small</option>
+            <option value="20" selected>Medium</option>
+            <option value="25">Large</option>
+            <option value="30">XL</option>
+        </select>
+
+        <button onclick="applySettings()" style="margin-top:15px; width:100%; padding:10px; border:none; border-radius:5px; background:#0a0; color:white; font-size:16px; cursor:pointer;">Apply</button>
+
+        <h3>High Score: <span id="highScore">0</span></h3>
+    </div>
+</div>
+
+<script>
+let canvas = document.getElementById("gameCanvas");
+let ctx = canvas.getContext("2d");
+
+let tileSize = 20;
+let tiles = 20;
+let snake = [];
+let direction = { x: 0, y: -1 };
+let apples = [];
+let speed = 120;
+let appleCount = 1;
+let snakeColor = "#00ff00";
+let interval;
+let score = 0;
+let highScore = localStorage.getItem("snakeHighScore") || 0;
+document.getElementById("highScore").textContent = highScore;
+
+function applySettings() {
+    speed = parseInt(document.getElementById("speed").value);
+    appleCount = parseInt(document.getElementById("appleCount").value);
+    snakeColor = document.getElementById("snakeColor").value;
+    tiles = parseInt(document.getElementById("mapSize").value);
+
+    canvas.width = tiles * tileSize;
+    canvas.height = tiles * tileSize;
+
+    resetGame();
+}
+
+function resetGame() {
+    score = 0;
+    snake = [{ x: Math.floor(tiles/2), y: Math.floor(tiles/2) }];
+    direction = { x: 0, y: -1 };
+    spawnApples(true);
+    clearInterval(interval);
+    interval = setInterval(gameLoop, speed);
+}
+
+function spawnApples(first = false) {
+    if (first) apples = [];
+
+    while (apples.length < appleCount) {
+        let ax = Math.floor(Math.random() * tiles);
+        let ay = Math.floor(Math.random() * tiles);
+
+        let conflict = snake.some(p => p.x === ax && p.y === ay) ||
+                        apples.some(a => a.x === ax && a.y === ay);
+
+        if (!conflict) apples.push({ x: ax, y: ay });
+    }
+}
+
+function draw() {
+    ctx.fillStyle = "#000";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = snakeColor;
+    snake.forEach(part => ctx.fillRect(part.x * tileSize, part.y * tileSize, tileSize, tileSize));
+
+    ctx.fillStyle = "red";
+    apples.forEach(a => ctx.fillRect(a.x * tileSize, a.y * tileSize, tileSize, tileSize));
+}
+
+function move() {
+    let head = { x: snake[0].x + direction.x, y: snake[0].y + direction.y };
+
+    if (head.x < 0 || head.x >= tiles || head.y < 0 || head.y >= tiles) return resetGame();
+
+    if (snake.some((p, i) => i > 0 && p.x === head.x && p.y === head.y)) return resetGame();
+
+    snake.unshift(head);
+
+    let ateIndex = apples.findIndex(a => a.x === head.x && a.y === head.y);
+    if (ateIndex !== -1) {
+        score++;
+        apples.splice(ateIndex, 1);
+        spawnApples();
+        updateHighScore();
+    } else {
+        snake.pop();
+    }
+}
+
+function updateHighScore() {
+    if (score > highScore) {
+        highScore = score;
+        localStorage.setItem("snakeHighScore", highScore);
+        document.getElementById("highScore").textContent = highScore;
+    }
+}
+
+function gameLoop() {
+    move();
+    draw();
+}
+
+document.addEventListener("keydown", e => {
+    if (e.key === "ArrowUp" && direction.y !== 1) direction = { x: 0, y: -1 };
+    if (e.key === "ArrowDown" && direction.y !== -1) direction = { x: 0, y: 1 };
+    if (e.key === "ArrowLeft" && direction.x !== 1) direction = { x: -1, y: 0 };
+    if (e.key === "ArrowRight" && direction.x !== -1) direction = { x: 1, y: 0 };
+});
+
+applySettings();
+</script>
+</body>
+</html>
